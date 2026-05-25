@@ -1,0 +1,1319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L05: Organize & Manage the Office</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f0f4ff;
+    --white: #ffffff;
+    --ink: #1a1a2e;
+    --mid: #5a5a7a;
+    --light: #9898b8;
+    --o: #ff6b35;
+    --r: #2196a8;
+    --d: #27a86e;
+    --e: #e0941a;
+    --ref: #8b3fc8;
+    --card-bg: #ffffff;
+    --border: rgba(0,0,0,0.08);
+    --radius: 16px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    font-family: 'Nunito Sans', sans-serif;
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%);
+    color: white;
+    padding: 60px 24px 50px;
+    text-align: center;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 100px;
+    padding: 6px 18px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    color: #aac4ff;
+  }
+  .hero h1 {
+    font-family: 'Nunito', sans-serif;
+    font-size: clamp(28px, 6vw, 52px);
+    font-weight: 900;
+    line-height: 1.15;
+    margin-bottom: 14px;
+  }
+  .hero h1 span { color: #ff6b35; }
+  .hero p {
+    font-size: 16px;
+    color: rgba(255,255,255,0.65);
+    max-width: 480px;
+    margin: 0 auto 36px;
+  }
+  .order-row {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .order-chip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 700;
+  }
+  .order-chip .dot {
+    width: 28px; height: 28px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 900;
+    font-size: 15px;
+    color: white;
+  }
+  .dot-o { background: var(--o); }
+  .dot-r { background: var(--r); }
+  .dot-d { background: var(--d); }
+  .dot-e { background: var(--e); }
+  .dot-ref { background: var(--ref); }
+
+  /* NAV */
+  .nav-wrap {
+    background: white;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 99;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+  .nav-scroll {
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: none;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 16px;
+  }
+  .nav-scroll::-webkit-scrollbar { display: none; }
+  .nav-btn {
+    flex-shrink: 0;
+    background: none;
+    border: none;
+    padding: 14px 18px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--light);
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all .2s;
+  }
+  .nav-btn:hover { color: var(--ink); }
+  .nav-btn.active { color: var(--ink); border-bottom-color: var(--o); }
+
+  /* MODULES */
+  .module { display: none; }
+  .module.active { display: block; }
+  .page { max-width: 860px; margin: 0 auto; padding: 40px 20px 60px; }
+
+  /* MODULE HEADER */
+  .mod-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 32px;
+  }
+  .mod-icon {
+    font-size: 42px;
+    flex-shrink: 0;
+    width: 72px; height: 72px;
+    background: white;
+    border-radius: 20px;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  }
+  .mod-top-text h2 {
+    font-family: 'Nunito', sans-serif;
+    font-size: clamp(22px, 4vw, 32px);
+    font-weight: 900;
+    line-height: 1.2;
+    margin-bottom: 6px;
+  }
+  .mod-top-text p { font-size: 15px; color: var(--mid); }
+  .mod-label {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+  }
+  .label-o { background: #fff0eb; color: var(--o); }
+  .label-r { background: #e8f6f8; color: var(--r); }
+  .label-d { background: #e8f7f0; color: var(--d); }
+  .label-e { background: #fdf3e3; color: var(--e); }
+  .label-ref { background: #f4eefb; color: var(--ref); }
+  .label-over { background: #eef2ff; color: #4466cc; }
+
+  /* PROGRESS */
+  .prog-row { display: flex; align-items: center; gap: 12px; margin-bottom: 28px; }
+  .prog-track { flex: 1; height: 6px; background: #e8eaf0; border-radius: 10px; overflow: hidden; }
+  .prog-fill { height: 100%; border-radius: 10px; transition: width .4s ease; }
+  .prog-fill-o { background: var(--o); }
+  .prog-fill-r { background: var(--r); }
+  .prog-fill-d { background: var(--d); }
+  .prog-fill-e { background: var(--e); }
+  .prog-fill-ref { background: var(--ref); }
+  .prog-label { font-size: 12px; font-weight: 700; color: var(--light); white-space: nowrap; }
+
+  /* CARDS */
+  .card-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin: 20px 0; }
+  .card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 22px;
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+  .card-emoji { font-size: 28px; margin-bottom: 10px; }
+  .card h4 { font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 800; margin-bottom: 6px; }
+  .card p { font-size: 13.5px; color: var(--mid); margin: 0; line-height: 1.5; }
+
+  /* SECTION HEADING */
+  .sh {
+    font-family: 'Nunito', sans-serif;
+    font-size: 19px;
+    font-weight: 900;
+    margin: 36px 0 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .sh::before {
+    content: '';
+    display: inline-block;
+    width: 4px; height: 22px;
+    border-radius: 4px;
+    background: var(--o);
+    flex-shrink: 0;
+  }
+  .sh.r::before { background: var(--r); }
+  .sh.d::before { background: var(--d); }
+  .sh.e::before { background: var(--e); }
+  .sh.ref::before { background: var(--ref); }
+  .sh.over::before { background: #4466cc; }
+
+  p.body { color: #333; margin-bottom: 14px; font-size: 15px; }
+
+  /* SIMPLE LIST */
+  .slist { list-style: none; padding: 0; margin: 10px 0 20px; }
+  .slist li {
+    padding: 10px 14px 10px 42px;
+    position: relative;
+    background: white;
+    border-radius: 10px;
+    margin-bottom: 8px;
+    font-size: 14.5px;
+    border: 1px solid var(--border);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  }
+  .slist li .emoji {
+    position: absolute;
+    left: 12px; top: 50%;
+    transform: translateY(-50%);
+    font-size: 17px;
+  }
+
+  /* TABLE */
+  .tbl-wrap { overflow-x: auto; margin: 16px 0 28px; border-radius: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  table { width: 100%; border-collapse: collapse; background: white; font-size: 14px; }
+  thead tr { background: var(--ink); color: white; }
+  th { padding: 13px 16px; text-align: left; font-size: 12px; letter-spacing: .5px; text-transform: uppercase; font-weight: 800; }
+  td { padding: 12px 16px; border-bottom: 1px solid #f0f0f8; vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  tr:nth-child(even) td { background: #fafafe; }
+
+  /* CALLOUT */
+  .callout {
+    border-radius: 14px;
+    padding: 20px 22px;
+    margin: 20px 0;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .callout.blue { background: #e8f4ff; border-left: 4px solid #2196a8; }
+  .callout.orange { background: #fff3ee; border-left: 4px solid var(--o); }
+  .callout.green { background: #edfaf3; border-left: 4px solid var(--d); }
+  .callout.purple { background: #f5eefe; border-left: 4px solid var(--ref); }
+  .callout-icon { font-size: 22px; flex-shrink: 0; margin-top: 2px; }
+  .callout p { font-size: 14.5px; margin: 0; color: #333; }
+  .callout strong { display: block; font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 13px; margin-bottom: 4px; color: var(--ink); }
+
+  /* ACTIVITY */
+  .activity {
+    background: linear-gradient(135deg, #1a1a2e, #0f3460);
+    color: white;
+    border-radius: 18px;
+    padding: 28px;
+    margin: 28px 0;
+  }
+  .act-tag {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    border-radius: 8px;
+    padding: 4px 12px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    color: #aac4ff;
+  }
+  .activity h4 {
+    font-family: 'Nunito', sans-serif;
+    font-size: 20px;
+    font-weight: 900;
+    margin-bottom: 12px;
+  }
+  .activity p { font-size: 14.5px; color: rgba(255,255,255,0.8); margin-bottom: 14px; }
+  .activity ol { padding-left: 20px; }
+  .activity ol li { font-size: 14px; color: rgba(255,255,255,0.75); margin-bottom: 8px; }
+  .activity ol li strong { color: white; }
+
+  /* EXAMPLE BOX */
+  .example {
+    background: #fffbf0;
+    border: 1.5px dashed var(--e);
+    border-radius: 14px;
+    padding: 18px 20px;
+    margin: 16px 0;
+  }
+  .example-tag { font-size: 11px; font-weight: 800; color: var(--e); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 6px; }
+  .example p { font-size: 14px; color: #555; margin: 0; }
+
+  /* SCENARIO BOX */
+  .scenario {
+    background: white;
+    border-radius: 16px;
+    border: 2px solid #e8eaf0;
+    padding: 24px;
+    margin: 20px 0;
+  }
+  .scenario h4 { font-family: 'Nunito', sans-serif; font-size: 17px; font-weight: 800; margin-bottom: 10px; }
+
+  /* FOOTER NAV */
+  .foot-nav { display: flex; justify-content: space-between; align-items: center; padding-top: 40px; margin-top: 20px; border-top: 1px solid var(--border); flex-wrap: wrap; gap: 12px; }
+  .fn-btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 22px; border-radius: 12px; font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 800; cursor: pointer; border: none; transition: all .2s; }
+  .fn-btn.primary { background: var(--ink); color: white; }
+  .fn-btn.primary:hover { background: #0f3460; }
+  .fn-btn.ghost { background: white; color: var(--ink); border: 1.5px solid var(--border); }
+  .fn-btn.ghost:hover { border-color: var(--ink); }
+
+  /* QUIZ */
+  .quiz-q { background: white; border-radius: 14px; border: 1px solid var(--border); padding: 20px 22px; margin: 14px 0; }
+  .quiz-q p { font-weight: 700; font-size: 15px; margin-bottom: 12px; }
+  .quiz-opt { display: block; width: 100%; text-align: left; background: #f4f6ff; border: 1.5px solid transparent; border-radius: 10px; padding: 10px 14px; margin-bottom: 7px; font-family: 'Nunito Sans', sans-serif; font-size: 14px; cursor: pointer; transition: all .15s; }
+  .quiz-opt:hover { border-color: #4466cc; background: #eef2ff; }
+  .quiz-opt.correct { background: #edfaf3; border-color: var(--d); color: #1a6040; font-weight: 700; }
+  .quiz-opt.wrong { background: #ffeef0; border-color: #e05050; color: #8b1a1a; }
+  .quiz-feedback { font-size: 13.5px; margin-top: 8px; padding: 8px 12px; border-radius: 8px; display: none; }
+  .quiz-feedback.show { display: block; }
+  .quiz-feedback.ok { background: #edfaf3; color: #1a6040; }
+  .quiz-feedback.no { background: #ffeef0; color: #8b1a1a; }
+
+  @media(max-width:600px) {
+    .mod-top { flex-direction: column; gap: 12px; }
+    .order-chip span { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-badge">Lesson 05 · For Beginners</div>
+  <h1>How to <span>Organize</span><br>& Run an Office</h1>
+  <p>No experience needed. We'll walk you through everything step by step using the easy O.R.D.E.R. system.</p>
+  <div class="order-row">
+    <div class="order-chip"><div class="dot dot-o">O</div><span>Organize</span></div>
+    <div class="order-chip"><div class="dot dot-r">R</div><span>Record</span></div>
+    <div class="order-chip"><div class="dot dot-d">D</div><span>Delegate</span></div>
+    <div class="order-chip"><div class="dot dot-e">E</div><span>Equip</span></div>
+    <div class="order-chip"><div class="dot dot-ref">R</div><span>Reflect</span></div>
+  </div>
+</header>
+
+<!-- NAV -->
+<nav class="nav-wrap">
+  <div class="nav-scroll">
+    <button class="nav-btn active" onclick="go(0)">🏠 Start Here</button>
+    <button class="nav-btn" onclick="go(1)">🗂️ Organize</button>
+    <button class="nav-btn" onclick="go(2)">📋 Record</button>
+    <button class="nav-btn" onclick="go(3)">🤝 Delegate</button>
+    <button class="nav-btn" onclick="go(4)">🖨️ Equip</button>
+    <button class="nav-btn" onclick="go(5)">🔍 Reflect</button>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════ MODULE 0: START HERE -->
+<div class="module active" id="m0">
+<div class="page">
+  <div class="mod-top">
+    <div class="mod-icon">🏠</div>
+    <div class="mod-top-text">
+      <div class="mod-label label-over">Start Here</div>
+      <h2>Welcome — Let's Keep It Simple</h2>
+      <p>You don't need experience. Just read, try, and learn at your pace.</p>
+    </div>
+  </div>
+
+  <p class="body">Have you ever walked into an office and thought <em>"where is everything?"</em> or <em>"how does anything get done here?"</em> — you're not alone. A lot of people feel that way on Day 1.</p>
+  <p class="body">This lesson teaches you a simple system called <strong>O.R.D.E.R.</strong> Each letter stands for one skill. Learn all five, and you'll know how to run an office properly.</p>
+
+  <div class="sh over">What You'll Learn</div>
+  <div class="card-row">
+    <div class="card"><div class="card-emoji">🗂️</div><h4>O — Organize</h4><p>How to arrange a workspace so things are easy to find and the office feels calm.</p></div>
+    <div class="card"><div class="card-emoji">📋</div><h4>R — Record</h4><p>How to save, label, and store documents properly so nothing gets lost.</p></div>
+    <div class="card"><div class="card-emoji">🤝</div><h4>D — Delegate</h4><p>How to share tasks fairly so no one is overloaded and work gets done on time.</p></div>
+    <div class="card"><div class="card-emoji">🖨️</div><h4>E — Equip</h4><p>How to manage office equipment and supplies so things don't run out or break down.</p></div>
+    <div class="card"><div class="card-emoji">🔍</div><h4>R — Reflect</h4><p>How to look back at what you did, spot problems, and keep getting better.</p></div>
+  </div>
+
+  <div class="callout blue">
+    <div class="callout-icon">💡</div>
+    <p><strong>Remember this one thing:</strong> A good office isn't about being perfect. It's about having simple systems that everyone understands and follows.</p>
+  </div>
+
+  <div class="sh over">What Does an Office Admin Actually Do?</div>
+  <p class="body">If you're new to office work, here's a plain English answer: an office administrator keeps everything running. Think of them as the person who makes sure the ship doesn't sink.</p>
+
+  <ul class="slist">
+    <li><span class="emoji">📁</span>Makes sure documents are saved and easy to find</li>
+    <li><span class="emoji">🖨️</span>Makes sure the printer has paper and the pens aren't missing</li>
+    <li><span class="emoji">📅</span>Helps the team stay organized with schedules and to-do lists</li>
+    <li><span class="emoji">📞</span>Handles calls, emails, and messages professionally</li>
+    <li><span class="emoji">🧹</span>Keeps the shared spaces neat and functional</li>
+    <li><span class="emoji">🤝</span>Supports other team members when they need help</li>
+  </ul>
+
+  <div class="foot-nav">
+    <span></span>
+    <button class="fn-btn primary" onclick="go(1)">Start with Organize →</button>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════════════════════════ MODULE 1: ORGANIZE -->
+<div class="module" id="m1">
+<div class="page">
+  <div class="mod-top">
+    <div class="mod-icon">🗂️</div>
+    <div class="mod-top-text">
+      <div class="mod-label label-o">Module 1 · Organize</div>
+      <h2>Organizing the Office</h2>
+      <p>Making sure everything has a place — and everyone knows where that place is.</p>
+    </div>
+  </div>
+
+  <div class="prog-row">
+    <div class="prog-track"><div class="prog-fill prog-fill-o" style="width:20%"></div></div>
+    <span class="prog-label">1 of 5</span>
+  </div>
+
+  <div class="callout orange">
+    <div class="callout-icon">🤔</div>
+    <p><strong>Think about this first:</strong> Imagine you need a stapler urgently. Do you know exactly where it is? Could a new colleague find it without asking anyone? That's what "organized" means.</p>
+  </div>
+
+  <div class="sh">What is Organization?</div>
+  <p class="body">Organization just means <strong>giving everything a home</strong> — a specific place where it always lives. When things have a home, people stop wasting time searching.</p>
+  <p class="body">Good organization has three parts:</p>
+  <div class="card-row">
+    <div class="card"><div class="card-emoji">🏢</div><h4>The Physical Space</h4><p>Desks, shelves, drawers, cabinets — is everything neatly placed and labeled?</p></div>
+    <div class="card"><div class="card-emoji">💻</div><h4>The Computer</h4><p>Folders, files, emails — are documents saved with clear names in logical folders?</p></div>
+    <div class="card"><div class="card-emoji">⚙️</div><h4>How Work Flows</h4><p>Do people know what to do, in what order, and who does what?</p></div>
+  </div>
+
+  <div class="sh">The 5S Method — Explained Simply</div>
+  <p class="body">5S is a famous cleaning-and-organizing method. The name comes from five Japanese words. Here's what each step means in everyday language:</p>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>#</th><th>The Step</th><th>What It Means</th><th>Example in the Office</th></tr></thead>
+      <tbody>
+        <tr><td>1️⃣</td><td><strong>Sort</strong></td><td>Throw out what you don't need</td><td>Throw away old papers, remove broken pens</td></tr>
+        <tr><td>2️⃣</td><td><strong>Set in Order</strong></td><td>Give everything a fixed spot</td><td>Label the stationery drawer, add signs to shelves</td></tr>
+        <tr><td>3️⃣</td><td><strong>Shine</strong></td><td>Keep things clean and tidy</td><td>Wipe desks every Friday, archive old files monthly</td></tr>
+        <tr><td>4️⃣</td><td><strong>Standardize</strong></td><td>Write down the rules so everyone follows them</td><td>Make a rule: "Always return items to their labeled spot"</td></tr>
+        <tr><td>5️⃣</td><td><strong>Sustain</strong></td><td>Make it a habit, not a one-time thing</td><td>Do a 5-minute tidy check every morning</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="sh">Naming Files on a Computer</div>
+  <p class="body">One of the biggest problems in offices is files that are saved with confusing names like <em>"final version 3 REVISED NEW.docx"</em>. Nobody knows what that is!</p>
+
+  <div class="example">
+    <div class="example-tag">❌ Bad File Names</div>
+    <p>document1.docx &nbsp;|&nbsp; final.pdf &nbsp;|&nbsp; copy of report (2).xlsx &nbsp;|&nbsp; ASDFGH.docx</p>
+  </div>
+
+  <div class="example" style="border-color: var(--d); background: #edfaf3;">
+    <div class="example-tag" style="color:var(--d)">✅ Good File Names</div>
+    <p>2024-06-15_Finance_BudgetReport.pdf &nbsp;|&nbsp; 2024-06_HR_LeaveApplication_JuanDela.docx</p>
+  </div>
+
+  <p class="body">A good file name tells you: <strong>when</strong> it was made, <strong>what department</strong> it belongs to, and <strong>what it is</strong>. Think of it like a label on a box.</p>
+
+  <div class="sh">Office Zones — Where Things Happen</div>
+  <p class="body">A well-organized office is divided into <strong>zones</strong>. Each zone has a purpose. Think of it like a house — you cook in the kitchen, sleep in the bedroom. The same idea applies to an office.</p>
+
+  <ul class="slist">
+    <li><span class="emoji">🤫</span><strong>Quiet Zone</strong> — for focused work, reading, or tasks that need concentration</li>
+    <li><span class="emoji">💬</span><strong>Team Zone</strong> — open area for group discussions, quick check-ins, collaboration</li>
+    <li><span class="emoji">📦</span><strong>Resource Zone</strong> — where the printer, supplies, and filing cabinets live</li>
+    <li><span class="emoji">🚪</span><strong>Meeting Zone</strong> — a separate room or area for formal discussions and calls</li>
+  </ul>
+
+  <!-- ACTIVITY: Sort the file names -->
+  <div class="activity">
+    <div class="act-tag">✏️ Activity 1 · Fix the File Names</div>
+    <h4>Which names are good? Which need fixing?</h4>
+    <p>Tap each file name below. Decide: is it a <strong>Good</strong> name or a <strong>Bad</strong> name? See your score at the end!</p>
+    <div id="fn-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0"></div>
+    <div id="fn-result" style="display:none;margin-top:14px;padding:14px 16px;border-radius:12px;font-size:14px;font-weight:700;"></div>
+    <button onclick="resetFN()" style="margin-top:10px;background:rgba(255,255,255,0.15);border:none;color:white;padding:8px 18px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:700;">🔄 Try Again</button>
+  </div>
+
+  <!-- ACTIVITY: Label the zones -->
+  <div class="activity" style="margin-top:20px">
+    <div class="act-tag">✏️ Activity 2 · Match the Zone</div>
+    <h4>Which zone does each activity belong in?</h4>
+    <p>For each scenario below, pick the correct office zone. All 4 must be correct to finish!</p>
+    <div id="zone-list" style="margin:14px 0"></div>
+    <div id="zone-result" style="display:none;margin-top:10px;padding:12px 16px;border-radius:10px;font-size:14px;font-weight:700;"></div>
+  </div>
+
+  <!-- QUIZ -->
+  <div class="sh">Quick Check ✅</div>
+  <div class="quiz-q">
+    <p>What does "Sustain" mean in the 5S method?</p>
+    <button class="quiz-opt" onclick="ans(this, false)">A. Throw away items you don't need</button>
+    <button class="quiz-opt" onclick="ans(this, true)">B. Make tidiness a regular habit, not a one-time event</button>
+    <button class="quiz-opt" onclick="ans(this, false)">C. Label all the drawers and shelves</button>
+    <div class="quiz-feedback">Correct! Sustain means keeping up the good habits consistently over time.</div>
+  </div>
+
+  <div class="foot-nav">
+    <button class="fn-btn ghost" onclick="go(0)">← Start Here</button>
+    <button class="fn-btn primary" onclick="go(2)">Next: Record →</button>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════════════════════════ MODULE 2: RECORD -->
+<div class="module" id="m2">
+<div class="page">
+  <div class="mod-top">
+    <div class="mod-icon">📋</div>
+    <div class="mod-top-text">
+      <div class="mod-label label-r">Module 2 · Record</div>
+      <h2>Managing Files & Documents</h2>
+      <p>Think of this as giving the office a reliable memory — so nothing important gets lost.</p>
+    </div>
+  </div>
+
+  <div class="prog-row">
+    <div class="prog-track"><div class="prog-fill prog-fill-r" style="width:40%"></div></div>
+    <span class="prog-label">2 of 5</span>
+  </div>
+
+  <div class="callout blue">
+    <div class="callout-icon">📖</div>
+    <p><strong>Real talk:</strong> Imagine your boss asks for last month's supplier invoice — right now. Could you find it in 2 minutes? If not, this module will fix that.</p>
+  </div>
+
+  <div class="sh r">Why Keeping Good Records Matters</div>
+  <p class="body">Records are the office's memory. They prove what happened, what was agreed, and what was spent. Without proper records, the office makes the same mistakes over and over.</p>
+  <p class="body">Good records also protect you. If there's ever a dispute or an audit, having proper documentation is your best defense.</p>
+
+  <div class="sh r">Types of Documents You'll Handle</div>
+  <div class="card-row">
+    <div class="card"><div class="card-emoji">📧</div><h4>Correspondence</h4><p>Emails, letters, memos — communication records between people and organizations.</p></div>
+    <div class="card"><div class="card-emoji">💰</div><h4>Financial Docs</h4><p>Invoices, receipts, purchase orders — anything involving money.</p></div>
+    <div class="card"><div class="card-emoji">👤</div><h4>Personnel Files</h4><p>Employee contracts, leave records, performance reviews.</p></div>
+    <div class="card"><div class="card-emoji">📜</div><h4>Legal Documents</h4><p>Contracts, permits, licenses — official agreements with legal weight.</p></div>
+  </div>
+
+  <div class="sh r">How to Build a Simple Filing System</div>
+  <p class="body">A filing system is just a set of folders — physical or digital — organized in a way that makes sense. Here are three popular ways to organize files:</p>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Method</th><th>How It Works</th><th>Best For</th></tr></thead>
+      <tbody>
+        <tr><td>🔤 <strong>Alphabetical</strong></td><td>Sort A–Z by name or company</td><td>Client files, supplier records</td></tr>
+        <tr><td>📅 <strong>By Date</strong></td><td>Sort by year → month → day</td><td>Invoices, letters, meeting minutes</td></tr>
+        <tr><td>🏷️ <strong>By Topic</strong></td><td>Group by subject or department</td><td>Policies, projects, HR documents</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout green">
+    <div class="callout-icon">💡</div>
+    <p><strong>Most offices use a mix:</strong> For example, topic folders (HR, Finance, Operations) organized by date inside each folder.</p>
+  </div>
+
+  <div class="sh r">How Long Do You Keep Documents?</div>
+  <p class="body">Not everything needs to be kept forever. But throwing things away too soon can get the office in trouble. Here's a simple guide:</p>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Document Type</th><th>Keep For</th><th>Then What?</th></tr></thead>
+      <tbody>
+        <tr><td>General letters & emails</td><td>2 years</td><td>Delete or shred</td></tr>
+        <tr><td>Financial records</td><td>7 years</td><td>Shred securely</td></tr>
+        <tr><td>Employee records</td><td>7 years after they leave</td><td>Shred securely</td></tr>
+        <tr><td>Legal contracts</td><td>Duration + 7 years</td><td>Ask a supervisor first</td></tr>
+        <tr><td>Permanent policies</td><td>Forever</td><td>Move to long-term archive</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="sh r">3 Golden Rules for Documents</div>
+  <ul class="slist">
+    <li><span class="emoji">1️⃣</span><strong>One master version only.</strong> Never have two copies of the "final" document floating around.</li>
+    <li><span class="emoji">2️⃣</span><strong>Sensitive files stay locked.</strong> Employee records and financial docs go in locked cabinets or password-protected folders.</li>
+    <li><span class="emoji">3️⃣</span><strong>Shred, don't bin.</strong> Documents with names, money amounts, or personal info must be shredded — not just thrown in the trash.</li>
+  </ul>
+
+  <div class="activity">
+    <div class="act-tag">✏️ Activity · Sort the Documents</div>
+    <h4>What type of document is each one?</h4>
+    <p>Read each document description. Pick the correct category from the dropdown. Get all 6 right!</p>
+    <div id="doc-sort" style="margin:14px 0"></div>
+    <button onclick="checkDocSort()" style="background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.3);color:white;padding:10px 22px;border-radius:10px;font-family:Nunito,sans-serif;font-size:14px;font-weight:800;cursor:pointer;margin-top:8px;">Check My Answers ✓</button>
+    <div id="doc-sort-result" style="display:none;margin-top:12px;padding:12px 16px;border-radius:10px;font-size:14px;font-weight:700;"></div>
+  </div>
+
+  <div class="sh r">Quick Check ✅</div>
+  <div class="quiz-q">
+    <p>A colleague wants to throw a financial invoice in the paper recycling bin. What should you say?</p>
+    <button class="quiz-opt" onclick="ans(this, false)">A. "That's fine, it's just paper."</button>
+    <button class="quiz-opt" onclick="ans(this, true)">B. "We need to shred that — it has confidential financial information."</button>
+    <button class="quiz-opt" onclick="ans(this, false)">C. "Keep it forever, just in case."</button>
+    <div class="quiz-feedback">Correct! Financial documents contain sensitive info and must always be shredded, not recycled openly.</div>
+  </div>
+
+  <div class="foot-nav">
+    <button class="fn-btn ghost" onclick="go(1)">← Organize</button>
+    <button class="fn-btn primary" onclick="go(3)">Next: Delegate →</button>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════════════════════════ MODULE 3: DELEGATE -->
+<div class="module" id="m3">
+<div class="page">
+  <div class="mod-top">
+    <div class="mod-icon">🤝</div>
+    <div class="mod-top-text">
+      <div class="mod-label label-d">Module 3 · Delegate</div>
+      <h2>Sharing Work & Managing Time</h2>
+      <p>Making sure tasks go to the right person — and get done on time.</p>
+    </div>
+  </div>
+
+  <div class="prog-row">
+    <div class="prog-track"><div class="prog-fill prog-fill-d" style="width:60%"></div></div>
+    <span class="prog-label">3 of 5</span>
+  </div>
+
+  <div class="callout orange">
+    <div class="callout-icon">😅</div>
+    <p><strong>Sound familiar?</strong> One person is drowning in tasks while another is scrolling their phone. That's a delegation problem — and it's fixable.</p>
+  </div>
+
+  <div class="sh d">What is Delegation?</div>
+  <p class="body">Delegation means <strong>giving a task to someone else</strong> with clear instructions. It's NOT dumping work on people. Done right, it helps everyone — the manager gets breathing room, and the team member gets to grow.</p>
+
+  <div class="sh d">First — Sort Your Tasks by Priority</div>
+  <p class="body">Before you can delegate, you need to know which tasks to keep and which to hand off. Use this simple 4-box system:</p>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th></th><th>⚡ Urgent</th><th>🕰️ Not Urgent</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>⭐ Important</strong></td>
+          <td>🔴 <strong>DO NOW</strong><br><small>Crisis, deadline, emergency</small></td>
+          <td>🟡 <strong>PLAN IT</strong><br><small>Training, improvements, planning</small></td>
+        </tr>
+        <tr>
+          <td><strong>💤 Not Important</strong></td>
+          <td>🔵 <strong>DELEGATE IT</strong><br><small>Interruptions, some meetings</small></td>
+          <td>⚫ <strong>DROP IT</strong><br><small>Busy work, time-wasters</small></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout green">
+    <div class="callout-icon">🎯</div>
+    <p><strong>The goal:</strong> Spend most of your time in the "Important, Not Urgent" box. That's where real progress happens — planning ahead, not putting out fires.</p>
+  </div>
+
+  <div class="sh d">How to Delegate Properly</div>
+  <p class="body">When you give someone a task, don't just say <em>"can you handle this?"</em> That's how things fall through the cracks. Instead, give them five things:</p>
+
+  <ul class="slist">
+    <li><span class="emoji">🎯</span><strong>What exactly needs to be done</strong> — describe the task clearly</li>
+    <li><span class="emoji">✅</span><strong>What "done" looks like</strong> — how will you know it's finished correctly?</li>
+    <li><span class="emoji">⏰</span><strong>When it's due</strong> — give a specific date and time, not "soon"</li>
+    <li><span class="emoji">🔑</span><strong>What they're allowed to do</strong> — can they make decisions, or must they check with you?</li>
+    <li><span class="emoji">📞</span><strong>When to update you</strong> — agree on a check-in point so you're not left guessing</li>
+  </ul>
+
+  <div class="example">
+    <div class="example-tag">❌ Vague Delegation</div>
+    <p>"Hey, can you sort out the supplies situation?"</p>
+  </div>
+
+  <div class="example" style="border-color: var(--d); background: #edfaf3;">
+    <div class="example-tag" style="color:var(--d)">✅ Clear Delegation</div>
+    <p>"Please check the stationery cupboard, list what's running low, and email me the list by Thursday 3pm. You can order directly for items under ₱500 — anything higher, send me the quote first."</p>
+  </div>
+
+  <div class="sh d">Why People Struggle to Delegate</div>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Common Excuse</th><th>The Truth</th></tr></thead>
+      <tbody>
+        <tr><td>"It's faster if I do it myself"</td><td>True once. But teaching someone takes 10 minutes and saves hours later.</td></tr>
+        <tr><td>"No one will do it as well as me"</td><td>Maybe at first. But they'll improve — and you'll stop burning out.</td></tr>
+        <tr><td>"I don't know who to give it to"</td><td>Make a simple list of your team members and what they're good at.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="activity">
+    <div class="act-tag">✏️ Activity · Prioritize These Tasks</div>
+    <h4>Where does each task belong on the priority matrix?</h4>
+    <p>Read each task. Pick whether it should be <strong>Done Now</strong>, <strong>Planned</strong>, <strong>Delegated</strong>, or <strong>Dropped</strong>.</p>
+    <div id="priority-list" style="margin:14px 0"></div>
+    <button onclick="checkPriority()" style="background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.3);color:white;padding:10px 22px;border-radius:10px;font-family:Nunito,sans-serif;font-size:14px;font-weight:800;cursor:pointer;margin-top:8px;">Check My Answers ✓</button>
+    <div id="priority-result" style="display:none;margin-top:12px;padding:12px 16px;border-radius:10px;font-size:14px;font-weight:700;"></div>
+  </div>
+
+  <div class="sh d">Quick Check ✅</div>
+  <div class="quiz-q">
+    <p>Your manager tells you: "Sort out the office supplies soon." What's the problem with this instruction?</p>
+    <button class="quiz-opt" onclick="ans(this, false)">A. The task is too small to be delegated</button>
+    <button class="quiz-opt" onclick="ans(this, true)">B. It has no clear deadline, no description of what "done" looks like, and no authority given</button>
+    <button class="quiz-opt" onclick="ans(this, false)">C. Office supplies should always be handled by the manager</button>
+    <div class="quiz-feedback">Correct! "Soon" is not a deadline. Good delegation needs specifics: what, when, how, and what you're allowed to decide.</div>
+  </div>
+
+  <div class="foot-nav">
+    <button class="fn-btn ghost" onclick="go(2)">← Record</button>
+    <button class="fn-btn primary" onclick="go(4)">Next: Equip →</button>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════════════════════════ MODULE 4: EQUIP -->
+<div class="module" id="m4">
+<div class="page">
+  <div class="mod-top">
+    <div class="mod-icon">🖨️</div>
+    <div class="mod-top-text">
+      <div class="mod-label label-e">Module 4 · Equip</div>
+      <h2>Equipment & Supplies</h2>
+      <p>Making sure the office has what it needs — before it runs out.</p>
+    </div>
+  </div>
+
+  <div class="prog-row">
+    <div class="prog-track"><div class="prog-fill prog-fill-e" style="width:80%"></div></div>
+    <span class="prog-label">4 of 5</span>
+  </div>
+
+  <div class="callout orange">
+    <div class="callout-icon">😬</div>
+    <p><strong>Worst timing:</strong> The printer runs out of toner 10 minutes before an important presentation. This module teaches you how to prevent that.</p>
+  </div>
+
+  <div class="sh e">Two Things to Manage</div>
+  <div class="card-row">
+    <div class="card"><div class="card-emoji">🖥️</div><h4>Equipment</h4><p>Big items that last a long time — computers, printers, projectors, shredders, furniture.</p></div>
+    <div class="card"><div class="card-emoji">📦</div><h4>Supplies</h4><p>Items that get used up — paper, pens, toner, folders, sticky notes, cleaning products.</p></div>
+  </div>
+
+  <div class="sh e">Track Your Equipment — The Asset List</div>
+  <p class="body">For equipment, you need an <strong>asset list</strong> — a simple record of every major item in the office. Think of it as a logbook for your equipment.</p>
+  <p class="body">For each item, record:</p>
+
+  <ul class="slist">
+    <li><span class="emoji">🏷️</span>What it is (brand, model)</li>
+    <li><span class="emoji">📅</span>When it was bought and how much it cost</li>
+    <li><span class="emoji">📍</span>Where it is right now</li>
+    <li><span class="emoji">👤</span>Who is responsible for it</li>
+    <li><span class="emoji">🛠️</span>When it was last serviced or repaired</li>
+    <li><span class="emoji">⚠️</span>Whether the warranty is still valid</li>
+  </ul>
+
+  <div class="example" style="border-color: var(--e); background: #fdf8ee;">
+    <div class="example-tag">📝 Example Asset List Entry</div>
+    <p>HP LaserJet Pro M404n · Purchased Jan 2022 · ₱18,500 · Located: Admin Room · Assigned to: Office Admin · Last serviced: March 2024 · Warranty expired: Jan 2024</p>
+  </div>
+
+  <div class="sh e">Manage Supplies — The Min/Max System</div>
+  <p class="body">The simplest way to never run out of supplies is the <strong>minimum-maximum system</strong>:</p>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Term</th><th>What It Means</th><th>Example (Bond Paper)</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Maximum</strong></td><td>The most you'll ever store</td><td>10 reams</td></tr>
+        <tr><td><strong>Minimum</strong></td><td>The least you'll allow before reordering</td><td>2 reams</td></tr>
+        <tr><td><strong>Reorder Point</strong></td><td>When you place the order</td><td>When stock hits 3 reams</td></tr>
+        <tr><td><strong>Order Quantity</strong></td><td>How much you order each time</td><td>7 reams (back to max)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout green">
+    <div class="callout-icon">💡</div>
+    <p><strong>Simple trick:</strong> Put a sticky note inside your supply cabinet at the "reorder level." When the stack reaches that note, it's time to order.</p>
+  </div>
+
+  <div class="sh e">Prevent Breakdowns Before They Happen</div>
+  <p class="body">Machines break down less often when you take care of them regularly. This is called <strong>preventive maintenance</strong> — like servicing a car before it breaks down on the highway.</p>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Equipment</th><th>What to Do</th><th>How Often</th></tr></thead>
+      <tbody>
+        <tr><td>🖨️ Printer / Copier</td><td>Clean, check toner, clear paper jams, test feed</td><td>Monthly</td></tr>
+        <tr><td>🖨️ Printer / Copier</td><td>Professional service from the supplier</td><td>Once a year</td></tr>
+        <tr><td>💻 Computers</td><td>Update software, clear old files, restart</td><td>Every 3 months</td></tr>
+        <tr><td>🗑️ Shredder</td><td>Oil the blades, empty the bin</td><td>Weekly</td></tr>
+        <tr><td>🔌 All Equipment</td><td>Check cables, look for damage, test if working</td><td>Monthly</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="activity">
+    <div class="act-tag">✏️ Activity · Build a Supply Inventory</div>
+    <h4>Set the min and max levels for these 5 common supplies</h4>
+    <p>Slide the levels for each item. Think: what's the minimum before you'd panic? What's too much to store?</p>
+    <div id="inventory-builder" style="margin:14px 0"></div>
+    <button onclick="checkInventory()" style="background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.3);color:white;padding:10px 22px;border-radius:10px;font-family:Nunito,sans-serif;font-size:14px;font-weight:800;cursor:pointer;margin-top:8px;">See Feedback ✓</button>
+    <div id="inventory-result" style="display:none;margin-top:12px;padding:14px 16px;border-radius:10px;font-size:14px;line-height:1.6;"></div>
+  </div>
+
+  <div class="sh e">Quick Check ✅</div>
+  <div class="quiz-q">
+    <p>The office printer has been slow and jamming a lot lately. What's the BEST first step?</p>
+    <button class="quiz-opt" onclick="ans(this, false)">A. Wait until it fully breaks down before doing anything</button>
+    <button class="quiz-opt" onclick="ans(this, false)">B. Buy a new printer immediately</button>
+    <button class="quiz-opt" onclick="ans(this, true)">C. Check the maintenance log, clean the machine, and schedule a service if overdue</button>
+    <div class="quiz-feedback">Correct! Regular maintenance catches problems early. Always check the maintenance history first before jumping to expensive solutions.</div>
+  </div>
+
+  <div class="foot-nav">
+    <button class="fn-btn ghost" onclick="go(3)">← Delegate</button>
+    <button class="fn-btn primary" onclick="go(5)">Final Module: Reflect →</button>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════════════════════════ MODULE 5: REFLECT -->
+<div class="module" id="m5">
+<div class="page">
+  <div class="mod-top">
+    <div class="mod-icon">🔍</div>
+    <div class="mod-top-text">
+      <div class="mod-label label-ref">Module 5 · Reflect</div>
+      <h2>The Capstone: Put It All Together</h2>
+      <p>Use everything you've learned to fix a real office problem — from scratch.</p>
+    </div>
+  </div>
+
+  <div class="prog-row">
+    <div class="prog-track"><div class="prog-fill prog-fill-ref" style="width:100%"></div></div>
+    <span class="prog-label">5 of 5 🎉</span>
+  </div>
+
+  <div class="callout purple">
+    <div class="callout-icon">🧠</div>
+    <p><strong>What is "Reflect"?</strong> It means stopping to ask: <em>"What did we do? Did it work? What can we do better next time?"</em> The best office workers don't just do tasks — they improve continuously.</p>
+  </div>
+
+  <div class="sh ref">The Improvement Loop</div>
+  <p class="body">Good office workers follow a simple habit loop to keep improving:</p>
+
+  <div class="card-row">
+    <div class="card"><div class="card-emoji">📝</div><h4>1. Plan</h4><p>Decide what you're going to do and how you'll do it.</p></div>
+    <div class="card"><div class="card-emoji">🚀</div><h4>2. Do</h4><p>Carry out the plan as best you can.</p></div>
+    <div class="card"><div class="card-emoji">👀</div><h4>3. Check</h4><p>Did it work? What went well? What didn't?</p></div>
+    <div class="card"><div class="card-emoji">🔄</div><h4>4. Improve</h4><p>Make adjustments. Then plan again.</p></div>
+  </div>
+
+  <div class="sh ref">🏢 The Capstone Scenario</div>
+
+  <div class="scenario">
+    <h4>📍 Welcome to Sunrise Admin Services</h4>
+    <p class="body">You and your team just started working at <strong>Sunrise Admin Services</strong> — a small company with 20 staff. The previous office administrator left suddenly with no handover. Here's what you find:</p>
+    <ul class="slist" style="margin-top:14px">
+      <li><span class="emoji">😱</span>Files are dumped in random folders with no naming system</li>
+      <li><span class="emoji">🗑️</span>There are documents going back 12 years — nobody knows what to keep</li>
+      <li><span class="emoji">🖨️</span>The printer keeps jamming. Nobody knows when it was last serviced.</li>
+      <li><span class="emoji">📦</span>The supply cabinet has 30 staplers but no paper. Seriously.</li>
+      <li><span class="emoji">😤</span>One staff member does all the filing alone. Two others say they have nothing to do.</li>
+      <li><span class="emoji">🪑</span>The office has no quiet zone — people complain they can't concentrate</li>
+    </ul>
+  </div>
+
+  <div class="activity">
+    <div class="act-tag">✏️ Activity · Spot What's Wrong</div>
+    <h4>Each problem below breaks one O.R.D.E.R. rule. Which one?</h4>
+    <p>Read the situation. Pick which O.R.D.E.R. skill was missed. All 5 must be answered!</p>
+    <div id="order-match" style="margin:14px 0"></div>
+    <button onclick="checkOrderMatch()" style="background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.3);color:white;padding:10px 22px;border-radius:10px;font-family:Nunito,sans-serif;font-size:14px;font-weight:800;cursor:pointer;margin-top:8px;">Check My Answers ✓</button>
+    <div id="order-match-result" style="display:none;margin-top:12px;padding:12px 16px;border-radius:10px;font-size:14px;font-weight:700;"></div>
+  </div>
+
+  <div class="activity" style="margin-top:20px">
+    <div class="act-tag">✏️ Activity · My O.R.D.E.R. Self-Check</div>
+    <h4>How am I doing in each area?</h4>
+    <p>Rate yourself honestly from 1 (not there yet) to 5 (I've got this!). Then read your personalised tip.</p>
+    <div id="self-check" style="margin:14px 0"></div>
+    <button onclick="showSelfCheckTips()" style="background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.3);color:white;padding:10px 22px;border-radius:10px;font-family:Nunito,sans-serif;font-size:14px;font-weight:800;cursor:pointer;margin-top:8px;">Show My Tips ✓</button>
+    <div id="self-check-result" style="margin-top:14px"></div>
+  </div>
+
+  <div class="sh ref">How You'll Be Assessed</div>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Skill</th><th>⭐⭐⭐ Great</th><th>⭐⭐ Good</th><th>⭐ Needs Work</th></tr></thead>
+      <tbody>
+        <tr><td>🗂️ Organize</td><td>Clear zones + folder system explained well</td><td>Either zones or folders, not both</td><td>No clear structure given</td></tr>
+        <tr><td>📋 Record</td><td>Filing system + retention covered</td><td>One of the two covered</td><td>Not addressed</td></tr>
+        <tr><td>🤝 Delegate</td><td>Tasks split fairly with clear deadlines</td><td>Tasks split but no deadlines</td><td>No delegation plan</td></tr>
+        <tr><td>🖨️ Equip</td><td>Printer plan + supply inventory done</td><td>One of the two done</td><td>Not addressed</td></tr>
+        <tr><td>🔍 Reflect</td><td>3 specific monthly checks identified</td><td>1–2 vague checks mentioned</td><td>No review plan</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="sh ref">🎓 What You've Learned</div>
+  <div class="card-row">
+    <div class="card"><div class="card-emoji">🗂️</div><h4>Organize</h4><p>Give everything a home. Label things. Create zones. Use clear file names.</p></div>
+    <div class="card"><div class="card-emoji">📋</div><h4>Record</h4><p>Save documents properly. Keep the right ones. Shred confidential docs. One master version only.</p></div>
+    <div class="card"><div class="card-emoji">🤝</div><h4>Delegate</h4><p>Share work clearly. Be specific about what, when, and how. Don't hoard tasks.</p></div>
+    <div class="card"><div class="card-emoji">🖨️</div><h4>Equip</h4><p>Track equipment. Set supply levels. Fix things before they break.</p></div>
+    <div class="card"><div class="card-emoji">🔍</div><h4>Reflect</h4><p>Check what worked. Fix what didn't. Keep improving every month.</p></div>
+  </div>
+
+  <div class="callout purple">
+    <div class="callout-icon">🌟</div>
+    <p><strong>You've got this.</strong> A great office admin isn't someone who knows everything on Day 1 — it's someone who pays attention, builds good habits, and never stops improving. That's exactly what O.R.D.E.R. helps you do.</p>
+  </div>
+
+  <div class="foot-nav">
+    <button class="fn-btn ghost" onclick="go(4)">← Equip</button>
+    <button class="fn-btn primary" onclick="go(0)">↩ Back to Start</button>
+  </div>
+</div>
+</div>
+
+<script>
+// ── NAV ──────────────────────────────────────────────
+function go(i) {
+  document.querySelectorAll('.nav-btn').forEach(function(b,x){ b.classList.toggle('active', x===i); });
+  document.querySelectorAll('.module').forEach(function(m,x){ m.classList.toggle('active', x===i); });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ── QUIZ ─────────────────────────────────────────────
+function ans(btn, correct) {
+  var q = btn.closest('.quiz-q');
+  if (q.dataset.answered) return;
+  q.dataset.answered = '1';
+  var fb = q.querySelector('.quiz-feedback');
+  btn.classList.add(correct ? 'correct' : 'wrong');
+  fb.classList.add('show', correct ? 'ok' : 'no');
+  if (!correct) fb.textContent = 'Not quite — try reading the section again and look for the best answer!';
+  q.querySelectorAll('.quiz-opt').forEach(function(b){ b.disabled = true; });
+}
+
+// ─── M1 A1: File Names ───────────────────────────────
+var fileNames = [
+  {name:'document1.docx', good:false},
+  {name:'2024-03-10_HR_LeaveForm_Santos.docx', good:true},
+  {name:'final FINAL v3 copy.pdf', good:false},
+  {name:'2024-01_Finance_Invoice_ABC.pdf', good:true},
+  {name:'asdfgh.xlsx', good:false},
+  {name:'2023-12_Admin_MeetingMinutes.docx', good:true},
+  {name:'NEW report (use this one).docx', good:false},
+  {name:'2024-05_Ops_SupplierContract_XYZ.pdf', good:true}
+];
+var fnState = {};
+function buildFN() {
+  var g = document.getElementById('fn-grid');
+  if (!g) return;
+  var html = '';
+  for (var i = 0; i < fileNames.length; i++) {
+    html += '<div id="fn-' + i + '" onclick="toggleFN(' + i + ')" style="background:rgba(255,255,255,0.1);border:2px solid rgba(255,255,255,0.2);border-radius:10px;padding:10px 12px;cursor:pointer;font-size:12px;color:white;word-break:break-all;">'
+          + fileNames[i].name
+          + '<div id="fn-label-' + i + '" style="margin-top:6px;font-size:11px;opacity:0.6;">Tap: Good or Bad?</div></div>';
+  }
+  g.innerHTML = html;
+}
+function toggleFN(i) {
+  fnState[i] = fnState[i] === undefined ? 'good' : fnState[i] === 'good' ? 'bad' : 'good';
+  var el = document.getElementById('fn-' + i);
+  var lbl = document.getElementById('fn-label-' + i);
+  if (fnState[i] === 'good') {
+    el.style.borderColor='#27a86e'; el.style.background='rgba(39,168,110,0.25)';
+    lbl.textContent='Good name'; lbl.style.opacity=1;
+  } else {
+    el.style.borderColor='#e05050'; el.style.background='rgba(224,80,80,0.25)';
+    lbl.textContent='Bad name'; lbl.style.opacity=1;
+  }
+  var correct=0, answered=0;
+  for (var j=0; j<fileNames.length; j++) {
+    if (fnState[j] !== undefined) { answered++; if ((fnState[j]==='good') === fileNames[j].good) correct++; }
+  }
+  if (answered === fileNames.length) {
+    var res = document.getElementById('fn-result');
+    res.style.display='block';
+    if (correct === fileNames.length) {
+      res.style.background='rgba(39,168,110,0.3)'; res.style.color='#c8fce0';
+      res.textContent='Perfect! ' + correct + '/' + fileNames.length + ' - You have mastered good file naming!';
+    } else {
+      res.style.background='rgba(224,80,80,0.2)'; res.style.color='#ffd0d0';
+      res.textContent=correct + '/' + fileNames.length + ' correct. Hint: good names have a date, department, and clear description.';
+    }
+  }
+}
+function resetFN() {
+  fnState = {};
+  document.getElementById('fn-result').style.display='none';
+  buildFN();
+}
+
+// ─── M1 A2: Zone Match ────────────────────────────────
+var zoneQ = [
+  {task:'You need to make an important phone call with a client', answer:'meeting'},
+  {task:'You need to photocopy 20 pages of a report', answer:'resource'},
+  {task:'Your team is brainstorming ideas for a new project', answer:'team'},
+  {task:'You need to read and mark up a 40-page policy document', answer:'quiet'}
+];
+var zoneOpts = ['quiet','team','resource','meeting'];
+var zoneState = {};
+function buildZones() {
+  var c = document.getElementById('zone-list');
+  if (!c) return;
+  var html = '';
+  for (var i=0; i<zoneQ.length; i++) {
+    html += '<div style="background:rgba(255,255,255,0.08);border-radius:12px;padding:14px 16px;margin-bottom:10px;">'
+          + '<div style="font-size:14px;color:white;margin-bottom:8px;">' + zoneQ[i].task + '</div>'
+          + '<div style="display:flex;flex-wrap:wrap;gap:8px;" id="zrow-' + i + '">';
+    for (var j=0; j<zoneOpts.length; j++) {
+      html += '<button onclick="pickZone(' + i + ',this,\'' + zoneOpts[j] + '\')" style="background:rgba(255,255,255,0.12);border:1.5px solid rgba(255,255,255,0.2);color:white;padding:6px 14px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;text-transform:capitalize;">' + zoneOpts[j] + ' Zone</button>';
+    }
+    html += '</div></div>';
+  }
+  c.innerHTML = html;
+}
+function pickZone(i, btn, val) {
+  var row = document.getElementById('zrow-' + i);
+  var btns = row.querySelectorAll('button');
+  for (var k=0; k<btns.length; k++) { btns[k].style.background='rgba(255,255,255,0.12)'; btns[k].style.borderColor='rgba(255,255,255,0.2)'; }
+  btn.style.background='rgba(255,255,255,0.3)'; btn.style.borderColor='white';
+  zoneState[i] = val;
+  if (Object.keys(zoneState).length === zoneQ.length) {
+    var correct = 0;
+    for (var j=0; j<zoneQ.length; j++) { if (zoneState[j]===zoneQ[j].answer) correct++; }
+    var res = document.getElementById('zone-result');
+    res.style.display='block';
+    if (correct===zoneQ.length) {
+      res.style.background='rgba(39,168,110,0.3)'; res.style.color='#c8fce0';
+      res.textContent='All correct! You know your office zones perfectly.';
+    } else {
+      res.style.background='rgba(224,80,80,0.2)'; res.style.color='#ffd0d0';
+      res.innerHTML=correct+'/'+zoneQ.length+' correct. Quiet=focus work, Team=collaboration, Resource=printers &amp; supplies, Meeting=calls &amp; discussions';
+    }
+  }
+}
+
+// ─── M2: Document Sort ───────────────────────────────
+var docItems = [
+  {doc:'An email chain between you and a supplier about delivery dates', answer:'correspondence'},
+  {doc:'An invoice for office furniture purchased last month', answer:'financial'},
+  {doc:'A signed employment contract for a new staff member', answer:'personnel'},
+  {doc:'The business permit for the company, renewed this year', answer:'legal'},
+  {doc:'A receipt for bond paper bought from the office supply store', answer:'financial'},
+  {doc:'An employee performance review from their annual evaluation', answer:'personnel'}
+];
+var docCats = ['correspondence','financial','personnel','legal'];
+function buildDocSort() {
+  var c = document.getElementById('doc-sort');
+  if (!c) return;
+  var html = '';
+  for (var i=0; i<docItems.length; i++) {
+    html += '<div style="background:rgba(255,255,255,0.08);border-radius:12px;padding:14px 16px;margin-bottom:10px;">'
+          + '<div style="font-size:14px;color:white;margin-bottom:8px;">' + docItems[i].doc + '</div>'
+          + '<select id="doc-sel-' + i + '" style="background:#1a1a2e;border:1.5px solid rgba(255,255,255,0.3);color:white;padding:7px 12px;border-radius:8px;font-size:13px;font-weight:700;width:100%;">'
+          + '<option value="">-- pick type --</option>';
+    for (var j=0; j<docCats.length; j++) {
+      html += '<option value="' + docCats[j] + '">' + docCats[j].charAt(0).toUpperCase() + docCats[j].slice(1) + '</option>';
+    }
+    html += '</select></div>';
+  }
+  c.innerHTML = html;
+}
+function checkDocSort() {
+  var correct=0, unanswered=0;
+  for (var i=0; i<docItems.length; i++) {
+    var sel = document.getElementById('doc-sel-' + i);
+    if (!sel.value) { unanswered++; continue; }
+    if (sel.value === docItems[i].answer) { correct++; sel.style.borderColor='#27a86e'; sel.style.color='#c8fce0'; }
+    else { sel.style.borderColor='#e05050'; sel.style.color='#ffd0d0'; }
+  }
+  var res = document.getElementById('doc-sort-result');
+  res.style.display='block';
+  if (unanswered>0) { res.style.background='rgba(224,148,26,0.2)'; res.style.color='#ffe0a0'; res.textContent='Please answer all ' + docItems.length + ' items first!'; return; }
+  if (correct===docItems.length) { res.style.background='rgba(39,168,110,0.3)'; res.style.color='#c8fce0'; res.textContent='Perfect! ' + correct + '/' + docItems.length + ' - You can categorize every document type.'; }
+  else { res.style.background='rgba(224,80,80,0.2)'; res.style.color='#ffd0d0'; res.textContent=correct + '/' + docItems.length + ' correct. Financial = money transactions. Personnel = about a specific employee.'; }
+}
+
+// ─── M3: Priority Matrix ─────────────────────────────
+var priorityTasks = [
+  {task:"The manager's presentation file crashed 30 minutes before the board meeting", answer:'now', hint:'Urgent + Important = Do Now'},
+  {task:'Learning the new filing software being rolled out next quarter', answer:'plan', hint:'Important but not urgent = Plan and schedule it'},
+  {task:'Sorting and distributing incoming mail that arrived this morning', answer:'delegate', hint:'Urgent but routine = Delegate to an available team member'},
+  {task:'Chatting in a group message thread about weekend plans during work hours', answer:'drop', hint:'Not urgent, not important = Drop it during work time'},
+  {task:'Re-alphabetizing a filing cabinet that already works fine', answer:'drop', hint:'Not important right now = Drop or deprioritize'},
+  {task:'A staff member reported a workplace injury and needs first aid immediately', answer:'now', hint:'Urgent + Important = Do Now immediately'}
+];
+var prioOpts = [{v:'now',l:'Do Now'},{v:'plan',l:'Plan It'},{v:'delegate',l:'Delegate'},{v:'drop',l:'Drop It'}];
+var prioState = {};
+function buildPriority() {
+  var c = document.getElementById('priority-list');
+  if (!c) return;
+  var html = '';
+  for (var i=0; i<priorityTasks.length; i++) {
+    html += '<div style="background:rgba(255,255,255,0.08);border-radius:12px;padding:14px 16px;margin-bottom:10px;">'
+          + '<div style="font-size:14px;color:white;margin-bottom:10px;">' + priorityTasks[i].task + '</div>'
+          + '<div style="display:flex;flex-wrap:wrap;gap:8px;" id="prow-' + i + '">';
+    for (var j=0; j<prioOpts.length; j++) {
+      html += '<button onclick="pickPriority(' + i + ',this,\'' + prioOpts[j].v + '\')" style="background:rgba(255,255,255,0.1);border:1.5px solid rgba(255,255,255,0.2);color:white;padding:7px 14px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;">' + prioOpts[j].l + '</button>';
+    }
+    html += '</div></div>';
+  }
+  c.innerHTML = html;
+}
+function pickPriority(i, btn, val) {
+  var row = document.getElementById('prow-' + i);
+  var btns = row.querySelectorAll('button');
+  for (var k=0; k<btns.length; k++) { btns[k].style.background='rgba(255,255,255,0.1)'; btns[k].style.borderColor='rgba(255,255,255,0.2)'; }
+  btn.style.background='rgba(255,255,255,0.3)'; btn.style.borderColor='white';
+  prioState[i] = val;
+}
+function checkPriority() {
+  var correct=0, unanswered=0;
+  for (var i=0; i<priorityTasks.length; i++) {
+    if (!prioState[i]) unanswered++;
+    else if (prioState[i]===priorityTasks[i].answer) correct++;
+  }
+  var res = document.getElementById('priority-result');
+  res.style.display='block';
+  if (unanswered>0) { res.style.background='rgba(224,148,26,0.2)'; res.style.color='#ffe0a0'; res.textContent='Please answer all ' + priorityTasks.length + ' tasks first!'; return; }
+  if (correct===priorityTasks.length) { res.style.background='rgba(39,168,110,0.3)'; res.style.color='#c8fce0'; res.textContent='Perfect! ' + correct + '/' + priorityTasks.length + ' - You are a prioritization pro!'; }
+  else {
+    var hints = '';
+    for (var i=0; i<priorityTasks.length; i++) { if (prioState[i]!==priorityTasks[i].answer) hints += ' | ' + priorityTasks[i].hint; }
+    res.style.background='rgba(224,80,80,0.2)'; res.style.color='#ffd0d0';
+    res.textContent=correct + '/' + priorityTasks.length + ' correct. Hints:' + hints;
+  }
+}
+
+// ─── M4: Supply Inventory ────────────────────────────
+var supplies = [
+  {name:'Bond Paper (reams)', unit:'reams', minOk:[2,4], maxOk:[8,15]},
+  {name:'Ballpoint Pens', unit:'pcs', minOk:[5,10], maxOk:[20,40]},
+  {name:'Printer Toner Cartridges', unit:'pcs', minOk:[1,2], maxOk:[4,8]},
+  {name:'Staple Wires (boxes)', unit:'boxes', minOk:[1,3], maxOk:[5,10]},
+  {name:'Folders (pcs)', unit:'pcs', minOk:[10,20], maxOk:[40,80]}
+];
+function buildInventory() {
+  var c = document.getElementById('inventory-builder');
+  if (!c) return;
+  var html = '';
+  for (var i=0; i<supplies.length; i++) {
+    html += '<div style="background:rgba(255,255,255,0.08);border-radius:12px;padding:16px;margin-bottom:12px;">'
+          + '<div style="font-size:15px;font-weight:800;color:white;margin-bottom:12px;">' + supplies[i].name + '</div>'
+          + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">'
+          + '<div><div style="font-size:11px;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Minimum Level</div>'
+          + '<div style="display:flex;align-items:center;gap:8px;">'
+          + '<input type="range" id="min-' + i + '" min="0" max="20" value="2" oninput="document.getElementById(\'minv-' + i + '\').textContent=this.value" style="flex:1;accent-color:#ff6b35;">'
+          + '<span id="minv-' + i + '" style="color:white;font-weight:800;min-width:24px;text-align:right;">2</span></div></div>'
+          + '<div><div style="font-size:11px;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Maximum Level</div>'
+          + '<div style="display:flex;align-items:center;gap:8px;">'
+          + '<input type="range" id="max-' + i + '" min="0" max="50" value="10" oninput="document.getElementById(\'maxv-' + i + '\').textContent=this.value" style="flex:1;accent-color:#27a86e;">'
+          + '<span id="maxv-' + i + '" style="color:white;font-weight:800;min-width:24px;text-align:right;">10</span></div></div>'
+          + '</div></div>';
+  }
+  c.innerHTML = html;
+}
+function checkInventory() {
+  var res = document.getElementById('inventory-result');
+  res.style.display='block';
+  var feedback = '';
+  for (var i=0; i<supplies.length; i++) {
+    var minV = parseInt(document.getElementById('min-' + i).value);
+    var maxV = parseInt(document.getElementById('max-' + i).value);
+    var s = supplies[i];
+    var minOk = minV >= s.minOk[0] && minV <= s.minOk[1];
+    var maxOk = maxV >= s.maxOk[0] && maxV <= s.maxOk[1];
+    var gapOk = maxV > minV;
+    var icon = (minOk && maxOk && gapOk) ? 'OK' : 'Check';
+    var tip = !gapOk ? 'Max must be higher than Min!' : !minOk ? 'Min should be ' + s.minOk[0] + '-' + s.minOk[1] + ' ' + s.unit : !maxOk ? 'Max should be ' + s.maxOk[0] + '-' + s.maxOk[1] + ' ' + s.unit : 'Good levels!';
+    feedback += '<div style="margin-bottom:8px;padding:8px 12px;border-radius:8px;background:rgba(255,255,255,0.08);"><strong>' + icon + ' - ' + s.name + ':</strong> ' + tip + '</div>';
+  }
+  res.style.background='rgba(255,255,255,0.05)'; res.style.color='white'; res.innerHTML=feedback;
+}
+
+// ─── M5 A1: ORDER Problem Match ──────────────────────
+var orderProblems = [
+  {problem:"You cannot find last month's report - it is somewhere on the computer but nobody knows where.", answer:'Organize', hint:'Hard-to-find files means you need to organize your space and folders.'},
+  {problem:'An important supplier contract from 3 years ago was thrown away during a clean-up.', answer:'Record', hint:'Knowing what to keep and for how long is records management.'},
+  {problem:'One staff member is doing the work of three people while two others have nothing to do.', answer:'Delegate', hint:'Unbalanced workloads are a delegation problem.'},
+  {problem:'The printer ran out of paper on a busy Monday morning with no backup stock anywhere.', answer:'Equip', hint:'Running out of supplies means the inventory system failed.'},
+  {problem:'The office made the same filing mistake for the third time - nobody reviewed what went wrong.', answer:'Reflect', hint:'Repeating mistakes without review means no reflection is happening.'}
+];
+var orderOpts = ['Organize','Record','Delegate','Equip','Reflect'];
+var orderState = {};
+function buildOrderMatch() {
+  var c = document.getElementById('order-match');
+  if (!c) return;
+  var html = '';
+  for (var i=0; i<orderProblems.length; i++) {
+    html += '<div style="background:rgba(255,255,255,0.08);border-radius:12px;padding:14px 16px;margin-bottom:10px;">'
+          + '<div style="font-size:14px;color:white;margin-bottom:10px;">' + orderProblems[i].problem + '</div>'
+          + '<div style="display:flex;flex-wrap:wrap;gap:8px;" id="orow-' + i + '">';
+    for (var j=0; j<orderOpts.length; j++) {
+      html += '<button onclick="pickOrder(' + i + ',this,\'' + orderOpts[j] + '\')" style="background:rgba(255,255,255,0.1);border:1.5px solid rgba(255,255,255,0.2);color:white;padding:7px 14px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;">' + orderOpts[j] + '</button>';
+    }
+    html += '</div></div>';
+  }
+  c.innerHTML = html;
+}
+function pickOrder(i, btn, val) {
+  var row = document.getElementById('orow-' + i);
+  var btns = row.querySelectorAll('button');
+  for (var k=0; k<btns.length; k++) { btns[k].style.background='rgba(255,255,255,0.1)'; btns[k].style.borderColor='rgba(255,255,255,0.2)'; }
+  btn.style.background='rgba(255,255,255,0.3)'; btn.style.borderColor='white';
+  orderState[i]=val;
+}
+function checkOrderMatch() {
+  var correct=0, unanswered=0;
+  for (var i=0; i<orderProblems.length; i++) {
+    if (!orderState[i]) unanswered++;
+    else if (orderState[i]===orderProblems[i].answer) correct++;
+  }
+  var res=document.getElementById('order-match-result');
+  res.style.display='block';
+  if (unanswered>0) { res.style.background='rgba(224,148,26,0.2)'; res.style.color='#ffe0a0'; res.textContent='Please answer all 5 problems first!'; return; }
+  if (correct===orderProblems.length) { res.style.background='rgba(39,168,110,0.3)'; res.style.color='#c8fce0'; res.textContent='Perfect! You can identify exactly which ORDER skill fixes each problem.'; }
+  else {
+    var hints='';
+    for (var i=0; i<orderProblems.length; i++) { if (orderState[i]!==orderProblems[i].answer) hints += '<br>Hint: ' + orderProblems[i].hint; }
+    res.style.background='rgba(224,80,80,0.2)'; res.style.color='#ffd0d0'; res.innerHTML=correct+'/5 correct.'+hints;
+  }
+}
+
+// ─── M5 A2: Self-Check ───────────────────────────────
+var selfItems = [
+  {label:'Organize', tip1:'Start small: organize just your desk or one folder today.', tip3:'Try applying the 5S method to one area this week.', tip5:'Outstanding! Keep modeling good organization habits for others.'},
+  {label:'Record', tip1:'Practice naming 5 files properly today - that one habit changes everything.', tip3:'Try setting up a simple folder structure in your personal drive.', tip5:'Excellent! Consider creating a simple records guide for your team.'},
+  {label:'Delegate', tip1:'Think of one task you always do alone - could someone else help?', tip3:'Next time you delegate, write down the 5 ingredients first.', tip5:'You are a natural! Make sure you are also building others skills.'},
+  {label:'Equip', tip1:'Check one thing today: does the printer have paper? That is your first step.', tip3:'Try setting a monthly reminder to check key supply levels.', tip5:'Well done! Consider building a simple maintenance calendar.'},
+  {label:'Reflect', tip1:'After your next task, ask: what would I do differently? That is reflecting.', tip3:'Try a weekly 5-minute review - what worked, what did not?', tip5:'Excellent! Share your reflections with your team to help everyone improve.'}
+];
+var selfState = {};
+function buildSelfCheck() {
+  var c = document.getElementById('self-check');
+  if (!c) return;
+  var html = '';
+  for (var i=0; i<selfItems.length; i++) {
+    html += '<div style="background:rgba(255,255,255,0.08);border-radius:12px;padding:14px 16px;margin-bottom:10px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;">'
+          + '<div style="font-size:14px;font-weight:800;color:white;min-width:130px;">' + selfItems[i].label + '</div>'
+          + '<div style="display:flex;gap:8px;" id="srow-' + i + '">';
+    for (var n=1; n<=5; n++) {
+      html += '<button onclick="rateSelf(' + i + ',' + n + ',this)" style="width:36px;height:36px;border-radius:8px;border:1.5px solid rgba(255,255,255,0.25);background:rgba(255,255,255,0.1);color:white;font-weight:800;font-size:15px;cursor:pointer;">' + n + '</button>';
+    }
+    html += '</div></div>';
+  }
+  c.innerHTML = html;
+}
+function rateSelf(i, n, btn) {
+  var row = document.getElementById('srow-' + i);
+  var btns = row.querySelectorAll('button');
+  for (var k=0; k<btns.length; k++) { btns[k].style.background='rgba(255,255,255,0.1)'; btns[k].style.borderColor='rgba(255,255,255,0.25)'; }
+  btn.style.background='rgba(255,107,53,0.6)'; btn.style.borderColor='#ff6b35';
+  selfState[i]=n;
+}
+function showSelfCheckTips() {
+  var res = document.getElementById('self-check-result');
+  if (Object.keys(selfState).length < selfItems.length) {
+    res.innerHTML='<div style="color:#ffe0a0;font-size:14px;">Please rate yourself on all 5 areas first!</div>'; return;
+  }
+  var html = '';
+  for (var i=0; i<selfItems.length; i++) {
+    var r = selfState[i];
+    var tip = r<=2 ? selfItems[i].tip1 : r<=3 ? selfItems[i].tip3 : selfItems[i].tip5;
+    var bg = r<=2 ? 'rgba(224,80,80,0.2)' : r<=3 ? 'rgba(224,148,26,0.2)' : 'rgba(39,168,110,0.25)';
+    var star = r<=2 ? 'Growing' : r<=3 ? 'Good' : 'Great';
+    html += '<div style="background:' + bg + ';border-radius:12px;padding:14px 16px;margin-bottom:10px;color:white;font-size:14px;"><strong>' + star + ' - ' + selfItems[i].label + ' (' + r + '/5):</strong> ' + tip + '</div>';
+  }
+  res.innerHTML = html;
+}
+
+// ─── INIT ─────────────────────────────────────────────
+buildFN();
+buildZones();
+buildDocSort();
+buildPriority();
+buildInventory();
+buildOrderMatch();
+buildSelfCheck();
+</script>
+</body>
+</html>
